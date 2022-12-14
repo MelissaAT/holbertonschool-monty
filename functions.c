@@ -1,6 +1,8 @@
 #include "monty.h"
 /**
- * 
+ * push - pushes an element to the stack
+ * @stack:
+ * @line_number: line number in the file
  */
 void push(stack_t **stack, unsigned int line_number)
 {
@@ -23,6 +25,11 @@ void push(stack_t **stack, unsigned int line_number)
 
 }
 
+/**
+ * pall - prints all the values on the stack, starting from the top of the stack
+ * @stack:
+ * @line_number: line number in the file
+ */
 void pall(stack_t **stack, unsigned int line_number)
 {
     (void) line_number;
@@ -35,6 +42,11 @@ void pall(stack_t **stack, unsigned int line_number)
     }
 }
 
+/**
+ * pint - prints the value at the top of the stack, followed by a new line
+ * @stack:
+ * @line_number: line number in the file
+ */
 void pint(stack_t **stack, unsigned int line_number)
 {
     stack_t *cmd = *stack;
@@ -47,6 +59,11 @@ void pint(stack_t **stack, unsigned int line_number)
     printf("%d\n", (*cmd).n);
 }
 
+/**
+ * pop - removes the top element of the stack
+ * @stack:
+ * @line_number: line number in the file
+ */
 void pop(stack_t **stack, unsigned int line_number)
 {
     stack_t *cmd;
@@ -71,43 +88,4 @@ void pop(stack_t **stack, unsigned int line_number)
         free(cmd);
     }
 
-}
-
-void nop(stack_t **stack, unsigned int line_number)
-{
-    (void) stack;
-    (void) line_number;
-}
-
-void swap(stack_t **stack, unsigned int line_number)
-{
-    stack_t *cmd;
-
-    if (*stack == NULL || (*stack)->next == NULL)
-    {
-        dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-    cmd = (*stack)->next;
-    (*stack)->prev = cmd;
-    (*stack)->next = cmd->next;
-    cmd->prev = NULL;
-    cmd->next = *stack;
-    *stack = cmd;
-}
-
-void add(stack_t **stack, unsigned int line_number)
-{
-    stack_t *cmd;
-
-    if (stack == NULL || (*stack)->next == NULL)
-    {
-        dprintf(STDERR_FILENO, "L%d: cant add, stack too short\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-    cmd = *stack;
-    cmd->next->n += (*stack)->n;
-    *stack = (*stack)->next;
-    free(cmd);
-    (*stack)->prev = NULL;
 }
