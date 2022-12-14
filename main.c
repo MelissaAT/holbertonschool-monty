@@ -1,19 +1,19 @@
 #include "monty.h"
 /**
- * main -
+ * main - Execute the whole monty program
  * 
  * @ac: argument count
  * @av: argument vector
  * 
  * Return: On sucess return 0.
  */
-char **tokens = NULL;
+char **tokens = NULL; /* Global Variable */
 int main(int ac, char **av)
 {
     int input_verification, line_number = 0;
     char *cmd = NULL;
     size_t buffer = 0;
-    FILE *fd;
+    FILE *fd; /* In order for our getline to send to a file we use this */
     void (*valid_fun)(stack_t **, unsigned int) = NULL;
     stack_t *stack = NULL;
 
@@ -31,7 +31,9 @@ int main(int ac, char **av)
     while ((input_verification = getline(&cmd, &buffer, fd)) > -1) /* As long as it more then -1 means theres no error */
     {
         line_number++; /* Count the line we have read*/
-        tokens = tokenization(cmd, " \n");
+        tokens = tokenization(cmd, " \n"); /* to check if token is == NULL */
+        if (tokens == NULL)
+            continue;
         valid_fun = get_op_func(tokens[0]); /* Pair cmd with function*/
         if (valid_fun == NULL)
         {
