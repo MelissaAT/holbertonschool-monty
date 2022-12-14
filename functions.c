@@ -1,87 +1,113 @@
 #include "monty.h"
 /**
  * 
- *  
- * 
  */
-void *push(stack_t **stack, unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number)
 {
-    stack_t *new_node;
+    stack_t *new_node = NULL;
+
     new_node = malloc(sizeof(stack_t));
     if (new_node == NULL)
-    return(NULL);
+    {
+        dprintf(STDERR_FILENO, "L%d: usage: push interger", line_number);
+        exit(EXIT_FAILURE);
+    }
+    new_node-> n = atoi(tokens[1]);
+    new_node->next = *stack;
+    new_node->prev = NULL;
 
-new_node->n = line_number;
-new_node->prev = NULL;
-new_node->next = *stack;
+    if (*stack != NULL)
+        (*stack)->prev = new_node;
 
-if (*stack != NULL)
-    (*stack)->prev = new_node;
+    *stack = new_node;
 
-*stack = new_node;
 }
 
-void pall(const stack_t *stack)
+void pall(stack_t **stack, unsigned int line_number)
 {
-    int count = 0;
+    (void) line_number;
+    stack_t *cmd = *stack;
 
-while (stack != NULL)
-{
-    printf("%d\n", stack->n);
-    stack = stack->next;
+    while (cmd != NULL)
+    {
+        printf("%d\n", (*cmd).n);
+        cmd = (*cmd).next;
+    }
 }
-}
+
 void pint(stack_t **stack, unsigned int line_number)
 {
     stack_t *cmd = *stack;
-    if (cmd = NULL)
+
+    if (cmd == NULL)
+    {
         dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", line_number);
         exit(EXIT_FAILURE);
-
-    printf("%d\n", *cmd->n);
+    }
+    printf("%d\n", (*cmd).n);
 }
 
 void pop(stack_t **stack, unsigned int line_number)
 {
     stack_t *cmd;
-	int data;
 
-	if (*stack == NULL || stack == NULL)
-	{
-		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack", line_number);
+    if (*stack == NULL)
+    {
+        dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", line_number);
         exit(EXIT_FAILURE);
-	}
-	else
-	{
-		cmd = (*stack)->next;
+    }
+    
+    if ((*stack)->next == NULL)
+    {
+        free(*stack);
+        *stack = NULL;
+    }
+    else
+    {
+        cmd = (*stack)->next;
         *stack = cmd;
         cmd = cmd->prev;
         (*stack)->prev = NULL;
         free(cmd);
     }
+
 }
+
+void nop(stack_t **stack, unsigned int line_number)
+{
+    (void) stack;
+    (void) line_number;
+}
+
 void swap(stack_t **stack, unsigned int line_number)
 {
     stack_t *cmd;
 
-    if (*stack == NULL || stack == NULL)
- {
-   	    dprintf(STDERR_FILENO, "L%d: can't pop an empty stack", line_number);
-        exit(EXIT_FAILURE); 
- }
- cmd = (*stack)->next;
- (*stack)->prev = cmd;
- (*stack)->next = cmd->next;
- cmd->prev = NULL;
- cmd->next = *stack;
- *stack = cmd;
+    if (*stack == NULL || (*stack)->next == NULL)
+    {
+        dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+    cmd = (*stack)->next;
+    (*stack)->prev = cmd;
+    (*stack)->next = cmd->next;
+    cmd->prev = NULL;
+    cmd->next = *stack;
+    *stack = cmd;
 }
 
 void add(stack_t **stack, unsigned int line_number)
 {
- if (*stack == NULL || stack == NULL)
- {
-   	    dprintf(STDERR_FILENO, "L%d: can't add, stack too short\n", line_number);
-        exit(EXIT_FAILURE); 
- }
-}   
+    stack_t *cmd;
+
+    if (stack == NULL || (*stack)->next == NULL)
+    {
+        dprintf(STDERR_FILENO, "L%d: cant add, stack too short\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+    cmd = *stack;
+    cmd->next->n += (*stack)->n;
+    *stack = (*stack)->next;
+    free(cmd);
+    (*stack)->prev = NULL;
+}
