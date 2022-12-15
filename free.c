@@ -20,7 +20,7 @@ void free_array(char **tokens)
 #include "monty.h"
 /**
  * free_stack - function that frees a list
- * @head: pointer to the start of the list
+ * @stack: pointer to the start of the list
  */
 void free_stack(stack_t *stack)
 {
@@ -32,4 +32,23 @@ void free_stack(stack_t *stack)
 		stack = stack->next;
 		free(tmp);
 	}
+}
+
+#include "monty.h"
+/**
+ * reset_inside - function is at the end of the loop to reset everything
+ * @cmd: cmd that we get from getline
+ * @tokens: two dimension array
+ */
+void reset_inside(char *cmd, char **tokens)
+{
+	free(cmd);
+	free_array(tokens);
+}
+
+void exit_free(stack_t *stack, char *cmd, FILE *fd)
+{
+	free(cmd);
+	free_stack(stack);
+	fclose(fd);
 }

@@ -4,8 +4,9 @@
 #include <stdlib.h> /* exit, getline, malloc , free  */
 #include <unistd.h> /*STDERR_FILENO*/
 #include <string.h> /* strcpy, strlen, strtok */
+#include <ctype.h> /* isdigit */
 extern char **tokens;
-/*
+/**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
  * @prev: points to the previous element of the stack (or queue)
@@ -51,6 +52,8 @@ void add(stack_t **stack, unsigned int line_number);
 /* Function that free */
 void free_array(char **tokens);
 void free_stack(stack_t *stack);
+void reset_inside(char *cmd, char **tokens);
+void exit_free(stack_t *stack, char *cmd, FILE *fd);
 
 /* Function to combine our cmd with the function */
 void (*get_op_func(char *cmd))(stack_t **stack, unsigned int line_number);
