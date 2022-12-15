@@ -53,6 +53,7 @@ void add(stack_t **stack, unsigned int line_number);
 void free_array(char **tokens);
 void free_stack(stack_t *stack);
 void reset_inside(char *cmd, char **tokens);
+void exit_free(stack_t *stack, char *cmd, FILE *fd);
 
 /* Function to combine our cmd with the function */
 void (*get_op_func(char *cmd))(stack_t **stack, unsigned int line_number);

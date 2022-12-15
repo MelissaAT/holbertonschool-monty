@@ -45,3 +45,10 @@ void reset_inside(char *cmd, char **tokens)
 	free(cmd);
 	free_array(tokens);
 }
+
+void exit_free(stack_t *stack, char *cmd, FILE *fd)
+{
+	free(cmd);
+	free_stack(stack);
+	fclose(fd);
+}
