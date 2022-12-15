@@ -11,11 +11,21 @@ void push(stack_t **stack, unsigned int line_number)
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL)
 	{
-		dprintf(STDERR_FILENO, "L%d: usage: push interger", line_number);
+		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
-	new_node-> n = atoi(tokens[1]);
+	if (tokens[1] == NULL) /* Checks if theres is a second argument */
+	{
+		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	if (isdigit(*tokens[1]) == 0) /* Ckecks if its a number */
+	{
+		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	new_node->n = atoi(tokens[1]); /* Convert the number to a interger */
 	new_node->next = *stack;
 	new_node->prev = NULL;
 
@@ -27,7 +37,7 @@ void push(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * pall - prints all the values on the stack, starting from the top of the stack
+ * pall - prints all the values on the stack
  * @stack: the list
  * @line_number: line number in the file
  */
@@ -74,7 +84,7 @@ void pop(stack_t **stack, unsigned int line_number)
 		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	
+
 	if ((*stack)->next == NULL)
 	{
 		free(*stack);
