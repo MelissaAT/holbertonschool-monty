@@ -34,6 +34,8 @@ int main(int ac, char **av)
 		tokens = tokenization(cmd, " \n");
 		if (tokens == NULL)
 			continue;
+		if (cmd[0] == '#')
+			continue;
 		valid_fun = get_op_func(tokens[0]); /* Pair cmd with function*/
 		if (valid_fun == NULL)
 		{
