@@ -31,26 +31,18 @@ int main(int ac, char **av)
 	while ((input_verification = getline(&cmd, &buffer, fd)) > -1)
 	{
 		line_number++; /* Count the line we have read*/
+		if (strcmp(cmd, "\n") == 0)
+			continue;
 		tokens = tokenization(cmd, " \n");
-		if (tokens == NULL)
-			continue;
-		if (cmd[0] == '#')
-			continue;
 		valid_fun = get_op_func(tokens[0]); /* Pair cmd with function*/
-		if (valid_fun == NULL)
-		{
-			dprintf(STDERR_FILENO, "L%d: unknown intruction %s\n", line_number, tokens[0]);
-			exit_free(stack, cmd, fd);
-			exit(EXIT_FAILURE);
-		}
 		valid_fun(&stack, line_number, cmd, fd); /* Execute given cmd*/
 		buffer = 0;
 		reset_inside(cmd, tokens);
 		cmd = NULL;
 		tokens = NULL;
 	}
-	exit_free(stack, cmd, fd);
-	cmd = NULL;
-	fd = NULL;
+	free_stack(stack);
+	free(cmd);
+	fclose(fd);
 	exit(EXIT_SUCCESS);
 }
