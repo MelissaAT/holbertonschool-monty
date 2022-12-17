@@ -17,9 +17,9 @@ extern char **tokens;
  */
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+int n;
+struct stack_s *prev;
+struct stack_s *next;
 } stack_t;
 
 /**
@@ -32,8 +32,8 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+char *opcode;
+void (*f)(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 } instruction_t;
 
 /* Prototypes Section */
@@ -41,13 +41,13 @@ int main(int ac, char **av);
 char **tokenization(char *ptr, char *delim);
 
 /* Operation cmd */
-void push(stack_t **stack, unsigned int line_number);
-void pall(stack_t **stack, unsigned int line_number);
-void pint(stack_t **stack, unsigned int line_number);
-void pop(stack_t **stack, unsigned int line_number);
-void nop(stack_t **stack, unsigned int line_number);
-void swap(stack_t **stack, unsigned int line_number);
-void add(stack_t **stack, unsigned int line_number);
+void push(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void pall(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void pint(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void nop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void swap(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void add(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 
 /* Function that free */
 void free_array(char **tokens);
@@ -56,5 +56,5 @@ void reset_inside(char *cmd, char **tokens);
 void exit_free(stack_t *stack, char *cmd, FILE *fd);
 
 /* Function to combine our cmd with the function */
-void (*get_op_func(char *cmd))(stack_t **stack, unsigned int line_number);
+void (*get_op_func(char *cmd))(stack_t **, unsigned int, char *cmd, FILE *fd);
 #endif

@@ -6,7 +6,7 @@
  *
  * Return: the function to be executed
  */
-void (*get_op_func(char *cmd))(stack_t **stack, unsigned int line_number)
+void (*get_op_func(char *cmd))(stack_t **, unsigned int, char *, FILE *)
 {
 	static instruction_t op[] = {
 		{"pall", pall},
