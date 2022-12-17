@@ -4,7 +4,7 @@
  * @stack: the list
  * @line_number: line number in the file
  */
-void push(stack_t **stack, unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
 	stack_t *new_node = NULL;
 
@@ -12,17 +12,23 @@ void push(stack_t **stack, unsigned int line_number)
 	if (new_node == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
+		exit_free(*stack, cmd, fd);
+		free(new_node);
 		exit(EXIT_FAILURE);
 	}
 
 	if (tokens[1] == NULL) /* Checks if theres is a second argument */
 	{
 		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
+		exit_free(*stack, cmd, fd);
+		free(new_node);
 		exit(EXIT_FAILURE);
 	}
 	if (isdigit(*tokens[1]) == 0) /* Ckecks if its a number */
 	{
 		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
+		exit_free(*stack, cmd, fd);
+		free(new_node);
 		exit(EXIT_FAILURE);
 	}
 	new_node->n = atoi(tokens[1]); /* Convert the number to a interger */
@@ -41,15 +47,17 @@ void push(stack_t **stack, unsigned int line_number)
  * @stack: the list
  * @line_number: line number in the file
  */
-void pall(stack_t **stack, unsigned int line_number)
+void pall(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
 	(void) line_number;
-	stack_t *cmd = *stack;
+	(void) cmd;
+	(void) fd;
+	stack_t *tmp = *stack;
 
-	while (cmd != NULL)
+	while (tmp != NULL)
 	{
-		printf("%d\n", (*cmd).n);
-		cmd = (*cmd).next;
+		printf("%d\n", (*tmp).n);
+		tmp = (*tmp).next;
 	}
 }
 
@@ -58,16 +66,17 @@ void pall(stack_t **stack, unsigned int line_number)
  * @stack: the list
  * @line_number: line number in the file
  */
-void pint(stack_t **stack, unsigned int line_number)
+void pint(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *cmd = *stack;
+	stack_t *tmp = *stack;
 
-	if (cmd == NULL)
+	if (tmp == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", line_number);
+		exit_free(*stack, cmd, fd);
 		exit(EXIT_FAILURE);
 	}
-	printf("%d\n", (*cmd).n);
+	printf("%d\n", (*tmp).n);
 }
 
 /**
@@ -75,13 +84,14 @@ void pint(stack_t **stack, unsigned int line_number)
  * @stack: the list
  * @line_number: line number in the file
  */
-void pop(stack_t **stack, unsigned int line_number)
+void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *cmd;
+	stack_t *tmp;
 
 	if (*stack == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", line_number);
+		exit_free(*stack, cmd, fd);
 		exit(EXIT_FAILURE);
 	}
 
@@ -92,11 +102,11 @@ void pop(stack_t **stack, unsigned int line_number)
 	}
 	else
 	{
-		cmd = (*stack)->next;
-		*stack = cmd;
-		cmd = cmd->prev;
+		tmp = (*stack)->next;
+		*stack = tmp;
+		tmp = tmp->prev;
 		(*stack)->prev = NULL;
-		free(cmd);
+		free(tmp);
 	}
 
 }

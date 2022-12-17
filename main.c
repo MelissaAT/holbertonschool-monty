@@ -14,7 +14,7 @@ int main(int ac, char **av)
 	char *cmd = NULL;
 	size_t buffer = 0;
 	FILE *fd; /* In order for our getline to send to a file we use this */
-	void (*valid_fun)(stack_t **, unsigned int) = NULL;
+	void (*valid_fun)(stack_t **, unsigned int, char *, FILE *) = NULL;
 	stack_t *stack = NULL;
 
 	if (ac != 2)
@@ -40,9 +40,10 @@ int main(int ac, char **av)
 		if (valid_fun == NULL)
 		{
 			dprintf(STDERR_FILENO, "L%d: unknown intruction %s\n", line_number, tokens[0]);
+			exit_free(stack, cmd, fd);
 			exit(EXIT_FAILURE);
 		}
-		valid_fun(&stack, line_number); /* Execute given cmd*/
+		valid_fun(&stack, line_number, cmd, fd); /* Execute given cmd*/
 		buffer = 0;
 		reset_inside(cmd, tokens);
 		cmd = NULL;

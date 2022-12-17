@@ -4,10 +4,12 @@
  * @stack: the list
  * @line_number: line number in the file
  */
-void nop(stack_t **stack, unsigned int line_number)
+void nop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
 	(void) stack;
 	(void) line_number;
+	(void) cmd;
+	(void) fd;
 }
 
 /**
@@ -15,21 +17,22 @@ void nop(stack_t **stack, unsigned int line_number)
  * @stack: the list
  * @line_number: line number in the file
  */
-void swap(stack_t **stack, unsigned int line_number)
+void swap(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *cmd;
+	stack_t *tmp;
 
 	if (*stack == NULL || (*stack)->next == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n", line_number);
+		exit_free(*stack, cmd, fd);
 		exit(EXIT_FAILURE);
 	}
-	cmd = (*stack)->next;
-	(*stack)->prev = cmd;
-	(*stack)->next = cmd->next;
-	cmd->prev = NULL;
-	cmd->next = *stack;
-	*stack = cmd;
+	tmp = (*stack)->next;
+	(*stack)->prev = tmp;
+	(*stack)->next = tmp->next;
+	tmp->prev = NULL;
+	tmp->next = *stack;
+	*stack = tmp;
 }
 
 /**
@@ -37,18 +40,19 @@ void swap(stack_t **stack, unsigned int line_number)
  * @stack: the list
  * @line_number: line number in the file
  */
-void add(stack_t **stack, unsigned int line_number)
+void add(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *cmd;
+	stack_t *tmp;
 
 	if (stack == NULL || (*stack)->next == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: cant add, stack too short\n", line_number);
+		exit_free(*stack, cmd, fd);
 		exit(EXIT_FAILURE);
 	}
-	cmd = *stack;
-	cmd->next->n += (*stack)->n;
+	tmp = *stack;
+	tmp->next->n += (*stack)->n;
 	*stack = (*stack)->next;
-	free(cmd);
+	free(tmp);
 	(*stack)->prev = NULL;
 }

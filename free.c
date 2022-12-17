@@ -29,7 +29,7 @@ void free_stack(stack_t *stack)
 	while (stack != NULL)
 	{
 		tmp = stack;
-		stack = stack->next;
+		stack = tmp->next;
 		free(tmp);
 	}
 }
@@ -50,5 +50,6 @@ void exit_free(stack_t *stack, char *cmd, FILE *fd)
 {
 	free(cmd);
 	free_stack(stack);
+	free_array(tokens);
 	fclose(fd);
 }
