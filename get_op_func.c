@@ -16,9 +16,9 @@ void (*get_op_func(char *cmd))(stack_t **, unsigned int, char *, FILE *)
 		{"swap", swap},
 		{"add", add},
 		{"nop", nop},
-		{"div", div},
+		{"div", _div},
 		{"sub", sub},
-		{"mul", mul}
+		{"mul", mul},
 		{NULL, NULL}
 	};
 	int i = 0;

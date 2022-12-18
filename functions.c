@@ -144,7 +144,7 @@ void mul(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		exit(EXIT_FAILURE);
 	}
 	tmp = *stack;
-	tmp->next->n *= (*stack)->n;
+	(*stack)->n *= tmp->next->n;
 	*stack = (*stack)->next;
 	free(tmp);
 	(*stack)->prev = NULL;

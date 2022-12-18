@@ -103,7 +103,7 @@ void sub(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
  * @cmd: string from getline
  * @fd: file set as upstream of getline
  */
-void div(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
+void _div(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
 	stack_t *tmp;
 
@@ -117,7 +117,7 @@ void div(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		exit(EXIT_FAILURE);
 	}
 	tmp = *stack;
-	tmp->next->n /= (*stack)->n;
+	(*stack)->n /= tmp->next->n;
 	*stack = (*stack)->next;
 	free(tmp);
 	(*stack)->prev = NULL;
