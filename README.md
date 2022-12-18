@@ -23,11 +23,11 @@ julien@ubuntu:~/monty$
 ```
 
 ### Compilation
-The code was compiled using `gcc -Wall -Werror -Wextra -pedantic *.c -o monty
+The code was compiled using `gcc -Wall -Werror -Wextra -pedantic *.c -o monty`
 
 ### Task
 
-Mandatory Task
+🦋 Mandatory Task 🦋
 
 | Task    | Description                          |
 |---------|--------------------------------------|
@@ -38,7 +38,7 @@ Mandatory Task
 | Task 4  | Implement the add opcode.            |
 | Task 5  | Implement the nop opcode.            |
 
- Advance Task
+🐼 Advance Task 🐼
 
 | Task   | Description               |
 |--------|---------------------------|
