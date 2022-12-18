@@ -48,6 +48,9 @@ void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 void nop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 void swap(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 void add(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void sub(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void div(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
+void mul(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 
 /* Function that free */
 void free_array(char **tokens);

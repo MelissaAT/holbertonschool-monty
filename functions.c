@@ -121,5 +121,31 @@ void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		(*stack)->prev = NULL;
 		free(tmp);
 	}
+}
 
+/**
+ * mul - multiplies the second top element of the stack with the top element
+ * @stack: the list
+ * @line_number: line number in the file
+ * @cmd: string from getline
+ * @fd: file set as upstream of getline
+ */
+void mul(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
+{
+	stack_t *tmp;
+
+	if (stack == NULL || (*stack)->next == NULL)
+	{
+		dprintf(STDERR_FILENO, "L%d: cant add, stack too short\n", line_number);
+		free_array(tokens);
+		free(cmd);
+		free_stack(*stack);
+		fclose(fd);
+		exit(EXIT_FAILURE);
+	}
+	tmp = *stack;
+	tmp->next->n *= (*stack)->n;
+	*stack = (*stack)->next;
+	free(tmp);
+	(*stack)->prev = NULL;
 }
