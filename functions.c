@@ -10,6 +10,16 @@ void push(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
 	stack_t *new_node = NULL;
 
+	if (stack == NULL)
+	{
+		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
+		free(new_node);
+		free(cmd);
+		free_array(tokens);
+		free_stack(*stack);
+		fclose(fd);
+		exit(EXIT_FAILURE);
+	}
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL || tokens[1] == NULL)
 	{
@@ -55,8 +65,11 @@ void pall(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 	(void) line_number;
 	(void) cmd;
 	(void) fd;
-	stack_t *tmp = *stack;
+	stack_t *tmp;
 
+	if (stack == NULL || *stack == NULL)
+		return;
+	*tmp = *stack;
 	while (tmp != NULL)
 	{
 		printf("%d\n", (*tmp).n);
@@ -73,9 +86,7 @@ void pall(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
  */
 void pint(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *tmp = *stack;
-
-	if (tmp == NULL)
+	if (stack == NULL || *stack == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", line_number);
 		free_array(tokens);
@@ -84,7 +95,7 @@ void pint(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	printf("%d\n", (*tmp).n);
+	printf("%d\n", (*stack).n);
 }
 
 /**
@@ -96,9 +107,9 @@ void pint(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
  */
 void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *tmp;
+	stack_t *tmp = NULL;
 
-	if (*stack == NULL)
+	if (*stack == NULL || stack == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", line_number);
 		free_array(tokens);
@@ -108,17 +119,10 @@ void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		exit(EXIT_FAILURE);
 	}
 
-	if ((*stack)->next == NULL)
+	if (stack != NULL)
 	{
-		free(*stack);
-		*stack = NULL;
-	}
-	else
-	{
-		tmp = (*stack)->next;
-		*stack = tmp;
-		tmp = tmp->prev;
-		(*stack)->prev = NULL;
+		tmp = *stack;
+		*stack = (*stack)->next;
 		free(tmp);
 	}
 }
