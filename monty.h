@@ -56,7 +56,6 @@ void mul(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd);
 void free_array(char **tokens);
 void free_stack(stack_t *stack);
 void reset_inside(char *cmd, char **tokens);
-void last_free(char *cmd, char **tokens, stack_t *stack, FILE *fd);
 
 /* Function to combine our cmd with the function */
 void (*get_op_func(char *cmd))(stack_t **, unsigned int, char *cmd, FILE *fd);

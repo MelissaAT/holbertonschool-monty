@@ -45,19 +45,3 @@ void reset_inside(char *cmd, char **tokens)
 	free(cmd);
 	free_array(tokens);
 }
-
-#include "monty.h"
-/**
- * last_free - function that clean outside loop
- * @cmd: cmd that we get from getline
- * @tokens: two dimension array
- * @stack: our stack
- * @fd: file to be closed
- */
-void last_free(char *cmd, char **tokens, stack_t *stack, FILE *fd)
-{
-	free_stack(stack);
-	free(cmd);
-	fclose(fd);
-	free_array(tokens);
-}
