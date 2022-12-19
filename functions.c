@@ -65,11 +65,13 @@ void pall(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 	(void) line_number;
 	(void) cmd;
 	(void) fd;
-	stack_t *tmp;
+	stack_t *tmp = NULL;
 
 	if (stack == NULL || *stack == NULL)
 		return;
-	*tmp = *stack;
+
+	tmp = *stack;
+
 	while (tmp != NULL)
 	{
 		printf("%d\n", (*tmp).n);
@@ -95,7 +97,7 @@ void pint(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	printf("%d\n", (*stack).n);
+	printf("%d\n", (*stack)->n);
 }
 
 /**
