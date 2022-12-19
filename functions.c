@@ -31,7 +31,6 @@ void push(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-
 	if (isdigit(*tokens[1]) == 0) /* Ckecks if its a number */
 	{
 		dprintf(STDERR_FILENO, "L%d: usage: push interger\n", line_number);
@@ -45,12 +44,9 @@ void push(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 	new_node->n = atoi(tokens[1]); /* Convert the number to a interger */
 	new_node->next = *stack;
 	new_node->prev = NULL;
-
 	if (*stack != NULL)
 		(*stack)->prev = new_node;
-
 	*stack = new_node;
-
 }
 
 /**
