@@ -117,7 +117,7 @@ void _div(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		exit(EXIT_FAILURE);
 	}
 	tmp = *stack;
-	(*stack)->n /= tmp->next->n;
+	tmp->next->n /= (*stack)->n;
 	*stack = (*stack)->next;
 	free(tmp);
 	(*stack)->prev = NULL;
