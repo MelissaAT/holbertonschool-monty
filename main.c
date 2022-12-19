@@ -31,7 +31,7 @@ int main(int ac, char **av)
 	while ((input_verification = getline(&cmd, &buffer, fd)) > -1)
 	{
 		line_number++; /* Count the line we have read*/
-		if (strcmp(cmd, "\n") == 0 || cmd == "#")
+		if (strcmp(cmd, "\n") == 0 || *cmd == '#')
 			continue;
 		tokens = tokenization(cmd, " \n");
 		if (tokens == NULL)
