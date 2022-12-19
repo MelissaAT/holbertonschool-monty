@@ -69,7 +69,7 @@ void add(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	stack->next->n += (*stack)->n;
+	(*stack)->next->n += (*stack)->n;
 	pop(stack, line_number, cmd, fd);
 }
 
@@ -100,12 +100,12 @@ void sub(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	stack->next->n -= (*stack)->n;
+	(*stack)->next->n -= (*stack)->n;
 	pop(stack, line_number, cmd, fd);
 }
 
 /**
- * div - divides the second top element of the stack by the top element
+ * _div - divides the second top element of the stack by the top element
  * @stack: the list
  * @line_number: line number in the file
  * @cmd: string from getline
@@ -131,7 +131,7 @@ void _div(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	stack->next->n /= (*stack)->n;
+	(*stack)->next->n /= (*stack)->n;
 	pop(stack, line_number, cmd, fd);
 }
 
