@@ -132,20 +132,15 @@ void pop(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
  */
 void mul(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
-	stack_t *tmp;
-
-	if (stack == NULL || (*stack)->next == NULL)
+	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		dprintf(STDERR_FILENO, "L%d: cant add, stack too short\n", line_number);
+		dprintf(STDERR_FILENO, "L%d: can't mul, stack too short\n", line_number);
 		free_array(tokens);
 		free(cmd);
 		free_stack(*stack);
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	tmp = *stack;
-	tmp->next->n *= (*stack)->n;
-	*stack = (*stack)->next;
-	free(tmp);
-	(*stack)->prev = NULL;
+	stack->next->n *= (*stack)->n;
+	pop(stack, line_number, cmd, fd);
 }
