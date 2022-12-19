@@ -82,6 +82,8 @@ void add(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
  */
 void sub(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 {
+	stack_t *tmp = *stack;
+
 	if (stack == NULL || (*stack)->next == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: can't sub, stack too short\n", line_number);
@@ -100,8 +102,10 @@ void sub(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n -= (*stack)->n;
-	pop(stack, line_number, cmd, fd);
+	*stack = (*stack)->next;
+	(*stack)->n -= (*stack)->next->n;
+	(*stack)->prev = NULL;
+	pop(tmp, line_number, cmd, fd);
 }
 
 /**
