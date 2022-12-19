@@ -34,6 +34,13 @@ int main(int ac, char **av)
 		if (strcmp(cmd, "\n") == 0)
 			continue;
 		tokens = tokenization(cmd, " \n");
+		if (tokens == NULL)
+		{
+			free(tokens);
+			continue;
+		}
+		else if (*tokens[0] == '#')/* Check for a comment */
+			continue;
 		valid_fun = get_op_func(tokens[0]); /* Pair cmd with function*/
 		valid_fun(&stack, line_number, cmd, fd); /* Execute given cmd*/
 		buffer = 0;
@@ -41,8 +48,6 @@ int main(int ac, char **av)
 		cmd = NULL;
 		tokens = NULL;
 	}
-	free_stack(stack);
-	free(cmd);
-	fclose(fd);
+	last_free(cmd, tokens, stack, fd);
 	exit(EXIT_SUCCESS);
 }
