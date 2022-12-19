@@ -105,7 +105,7 @@ void sub(stack_t **stack, unsigned int line_number, char *cmd, FILE *fd)
 	*stack = (*stack)->next;
 	(*stack)->n -= (*stack)->next->n;
 	(*stack)->prev = NULL;
-	pop(tmp, line_number, cmd, fd);
+	free(tmp);
 }
 
 /**
